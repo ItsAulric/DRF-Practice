@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +55,25 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# Allow cookies to be sent in cross-origin requests
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow only the frontend origin for development
+CORS_ALLOWED_ORIGINS = [ 
+    "http://127.0.0.1:5173", # frontend origin
+    "http://127.0.0.1:5174", # frontend origin
+    "http://127.0.0.1:8000", # backend origin 
+    "http://127.0.0.1:8001" # backend origin 
+]
+
+# Allow only the frontend origin for CSRF protection
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5173", # frontend origin
+    "http://127.0.0.1:5174", # frontend origin
+    "http://127.0.0.1:8000", # backend origin 
+    "http://127.0.0.1:8001" # backend origin 
 ]
 
 ROOT_URLCONF = 'backend.urls'
