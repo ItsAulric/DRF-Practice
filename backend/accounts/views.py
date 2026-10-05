@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, RegisterSerializer
 # Create your views here.
 
 User = get_user_model()
@@ -18,3 +18,15 @@ class UserView(APIView):
         user = User.objects.all()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
+
+class RegisterView(APIView):
+    permission_classes = []
+    
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success" : "True"}, status=201)
+
+        return Response(serializer.errors, status=400)
