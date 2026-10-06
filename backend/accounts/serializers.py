@@ -8,7 +8,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['username', 'email', 'password']
 
 
 
@@ -27,6 +27,10 @@ def validate_password_rules(password):
         raise serializers.ValidationError("Password must include a special character.")
 
     return password
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:

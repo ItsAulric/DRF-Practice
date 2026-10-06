@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from django.middleware.csrf import get_token
 
-from .serializers import UserSerializer, RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 # Create your views here.
 
 User = get_user_model()
@@ -18,6 +18,23 @@ class UserView(APIView):
         user = User.objects.all()
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
+
+class LoginView(APIView):
+    permission_classes = [] # Allow any user (authenticated or not) to access this view
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user) # Log the user in by creating a session
+            return Response({"success" : True, "csrfToken": get_token(request)}) # Include CSRF token in the response to authenticate users
+        else:
+            return Response({"error": "Invalid username or password!"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class RegisterView(APIView):
     permission_classes = []
