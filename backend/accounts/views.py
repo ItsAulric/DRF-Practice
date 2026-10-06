@@ -19,6 +19,13 @@ class UserView(APIView):
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data)
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response({"success" : "True"}, status=200)
+
 class LoginView(APIView):
     permission_classes = [] # Allow any user (authenticated or not) to access this view
 
