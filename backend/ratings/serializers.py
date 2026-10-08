@@ -3,9 +3,14 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from .models import Post
+from .models import Post, Rating
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = "__all__"
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = ["id", "title", "average_rating"]
