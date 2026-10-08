@@ -3,12 +3,13 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from '../Pages/AuthPage/LoginPage.jsx';
 import RegisterPage from '../Pages/AuthPage/RegisterPage.jsx';
 
+import DashboardPage from '../Pages/DashboardPage/DashboardPage.jsx';
+
 /* 
 
 import ConfirmRegister from '../Pages/AuthPages/ConfirmRegister.jsx';
 import RecoverPage from '../Pages/AuthPages/RecoverPage.jsx';
 
-import DashboardPage from '../Pages/Dashboard/DashboardPage.jsx';
 
 */
 
@@ -25,8 +26,8 @@ function App() {
         <Route path="/confirm-register" element={<ConfirmRegister />} />
         <Route path="/forgot-password" element={<RecoverPage />}/>
 
-        <Route path="/dashboard" element={<DashboardPage />} />
         */}
+        <Route path="/dashboard" element={<DashboardPage />} />
         
         <Route path="*" element={<LoginPage />} />
       </Routes>
