@@ -14,9 +14,11 @@ User = get_user_model()
 
 # this is simply a test to fetch "all" data from the table. but there are no entries yet.
 class UserView(APIView):
+    permission_classes = [IsAuthenticated] # Only allow authenticated users to access this view
+
     def get(self, request):
-        user = User.objects.all()
-        serializer = UserSerializer(user, many=True)
+        user = request.user
+        serializer = UserSerializer(user)
         return Response(serializer.data)
 
 class LogoutView(APIView):
