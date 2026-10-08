@@ -21,5 +21,5 @@ class PostSerializer(serializers.ModelSerializer):
 
     # DRF automatically calls this method for each post; "obj" is the current Post object.
     def get_average_rating(self, obj):
-        average = obj.ratings.aggregate(average=Avg("ratings"))["average"]
-        return average
+        average = obj.ratings.aggregate(average=Avg("rating"))["average"]
+        return round(average, 1) if average is not None else None

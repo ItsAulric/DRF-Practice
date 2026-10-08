@@ -6,6 +6,9 @@ User = get_user_model()
 class Post(models.Model):
     title = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.title
+
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(
@@ -15,3 +18,6 @@ class Rating(models.Model):
     )
     rating = models.IntegerField()
     comment = models.CharField(max_length=500, blank=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.post}: {self.rating} stars"
