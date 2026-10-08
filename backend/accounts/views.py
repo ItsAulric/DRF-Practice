@@ -26,7 +26,7 @@ class LogoutView(APIView):
 
     def post(self, request):
         logout(request)
-        return Response({"success" : "True"}, status=200)
+        return Response({"success" : True}, status=200)
 
 class LoginView(APIView):
     permission_classes = [] # Allow any user (authenticated or not) to access this view
@@ -53,6 +53,6 @@ class RegisterView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            return Response({"success" : "True"}, status=201)
+            return Response({"success" : True}, status=201)
 
         return Response(serializer.errors, status=400)
