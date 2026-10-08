@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import useCheckLogin from './hooks/useCheckLogin';
+import useCheckLogin from './hooks/useCheckLogin.jsx';
 
 function LoginPage() {
 

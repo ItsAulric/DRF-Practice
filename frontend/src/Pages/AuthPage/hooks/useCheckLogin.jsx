@@ -14,6 +14,7 @@ function useCheckLogin(setLoading) {
                     { withCredentials: true }
                 )
 
+                // If response fetches ANY username, navigate to '/dashboard'
                 if (response.data?.username) {
                     navigate("/dashboard");
                 }
