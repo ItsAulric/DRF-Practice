@@ -26,6 +26,7 @@ export default function DashboardPage() {
             } catch (error) {
                 console.error(error);
                 setLoading(false);
+                navigate("/login");
             }
         }
         isLoggedIn();
@@ -33,8 +34,12 @@ export default function DashboardPage() {
 
     const handleLogout = async () => {
         setLoading(true);
+
+        if (loading) return; // Prevent multiple submissions while loading
         
         try {
+            // csrftoken is received from the login response from django backend stored in the browser cookies.
+            // We need to send this token in the headers of the logout request to prevent CSRF attacks.
             const token = Cookies.get("csrftoken");
 
             const response = await axios.post(
@@ -48,7 +53,7 @@ export default function DashboardPage() {
                 }
             );
 
-            if (response.data.success == true) {
+            if (response.data.success === true) {
                 navigate("/login");
             }
         } catch (error) {
