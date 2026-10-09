@@ -19,5 +19,8 @@ class Rating(models.Model):
     rating = models.IntegerField()
     comment = models.CharField(max_length=500, blank=True)
 
+    class Meta:
+        unique_together = ("user", "post")
+
     def __str__(self):
         return f"{self.user} - {self.post}: {self.rating} stars"
