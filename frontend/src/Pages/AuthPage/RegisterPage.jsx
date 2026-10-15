@@ -2,11 +2,10 @@ import styles from './Auth.module.css';
 
 import axios from 'axios';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import getErrorMessage from './GetErrorMessage.js';
-import useCheckLogin from './hooks/useCheckLogin.jsx';
 
 export default function RegisterPage() {
 
@@ -18,10 +17,24 @@ export default function RegisterPage() {
     const [step, setStep] = useState("register");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    
-    // useEffect to check if the browser has any stored valid credentials
-    // I used this to redirect user to '/dashboard' to avoid double login
-    useCheckLogin(setLoading);
+
+    useEffect(() => {                                               // useEffect to check if the browser has any stored valid credentials
+        const isLoggedIn = async () => {                            // I used this to redirect user to '/dashboard' to avoid double login
+            try {
+                const response = await axios.get(
+                    "http://127.0.0.1:8000/api/auth/user/",
+                    { withCredentials: true }
+                );
+
+                if (response.data?.username) {                      // If response fetches ANY username, navigate to '/dashboard'
+                    navigate("/dashboard");
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        isLoggedIn();
+    }, []);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
