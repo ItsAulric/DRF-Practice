@@ -13,7 +13,8 @@ export default function DashboardPage() {
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {                                               // useEffect to check if the browser has any stored valid credentials
+    // useEffect to check if the browser has any stored valid credentials
+    useEffect(() => {                                               
         const isLoggedIn = async () => {                            
             try {
                 const response = await axios.get(
@@ -62,6 +63,24 @@ export default function DashboardPage() {
         }
     }
 
+    // ====================== Posts =========================
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(
+                    "http://127.0.0.1:8000/api/ratings/post/",
+                    { withCredentials: true }
+                );
+                setPosts(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchPosts();
+    }, []);
+
     return (
         <div className={styles.dashboard}>
             <h1>Profile Dashboard</h1>
@@ -76,6 +95,22 @@ export default function DashboardPage() {
                     <h2>{userData.username}</h2>
                     <h2>{userData.email}</h2>
                 </div>
+            </div>
+
+            <div className={styles.postsContainer}>
+                <h1>Posts</h1>
+                {posts.length === 0 ? (
+                    <p>No posts available.</p>
+                ) : (
+                    <div className={styles.postsList}>
+                        {posts.map((post) => (
+                            <div key={post.id} className={styles.postItem}>
+                                <h2>{post.title}</h2>
+                                <p>Rating: {post.average_rating}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <button className={styles.authButton} onClick={handleLogout}>{loading ? "Logging out..." : "Logout"}</button>
