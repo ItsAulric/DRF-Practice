@@ -4,8 +4,8 @@ from rest_framework import status
 
 from django.contrib.auth import get_user_model
 
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, Rating
+from .serializers import PostSerializer, RatingSerializer
 
 User = get_user_model()
 # Create your views here.
@@ -16,3 +16,10 @@ class PostView(APIView):
         serializer = PostSerializer(posts, many=True)
 
         return Response(serializer.data)
+
+class RatingView(APIView):
+    def get(self, request):
+        ratings = Rating.objects.all()
+        serializer = RatingSerializer(ratings, many=True)
+
+        return Response(serializer.data, status=201)
