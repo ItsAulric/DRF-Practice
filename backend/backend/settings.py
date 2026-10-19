@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import psycopg2
 
 # Load environment variables from .env file
 load_dotenv()
@@ -109,8 +110,18 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
+        'OPTIONS' : {
+            'connect_timeout' : 5,
+        }
     }
 }
+
+"""DATABASES = {
+    'default': {
+        'ENGINE' : 'django.db.backends.sqlite3',
+        'NAME' : BASE_DIR / 'db.sqlite3',
+    }
+}"""
 
 # Use the custom User model using AbstractUser defined in accounts/models.py
 AUTH_USER_MODEL = 'accounts.User'
