@@ -28,7 +28,7 @@ class RateView(APIView):
     # Handle POST requests to create or update a rating
     def post(self, request):
         post_id = request.data.get("post_id")
-        rate_value = request.data.get("rate_value")
+        rate_value = request.data.get("rating")
 
         user = request.user
 
@@ -40,9 +40,11 @@ class RateView(APIView):
         if rating:
             rating.rating = rate_value
             rating.save()
+            return Response({"message": "Rating updated successfully."}, status=200)
         else:
             Rating.objects.create(
                 user=user,
                 post_id=post_id,
                 rating=rate_value
             )
+            return Response({"message": "Rating created successfully."}, status=201)
