@@ -17,7 +17,7 @@ class PostView(APIView):
 
         return Response(serializer.data)
 
-class RatingView(APIView):
+class RateListView(APIView):
     def get(self, request):
         ratings = Rating.objects.all()
         serializer = RatingSerializer(ratings, many=True)
