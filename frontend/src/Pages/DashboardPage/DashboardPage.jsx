@@ -81,6 +81,8 @@ export default function DashboardPage() {
         fetchPosts();
     }, []);
 
+    const [showReview, setShowReview] = useState(null);
+
     return (
         <div className={styles.dashboard}>
             <h1>Profile Dashboard</h1>
@@ -104,9 +106,19 @@ export default function DashboardPage() {
                 ) : (
                     <div className={styles.postsList}>
                         {posts.map((post) => (
-                            <div key={post.id} className={styles.postItem}>
-                                <h2>{post.title}</h2>
-                                <p>Rating: {post.average_rating}</p>
+                            <div key={post.id} className={styles.breakthis}>
+                                <div className={styles.postItem}>
+                                    <h2>{post.title}</h2>
+                                    <p>Rating: {post.average_rating}</p>
+                                    <button
+                                        onClick={() => {setShowReview(showReview === post.id ? null : post.id);}}>
+                                        {showReview === post.id ? "Cancel review" : "Leave a review"}
+                                    </button>
+                                </div>
+                                {showReview === post.id
+                                    ? <RatingForm post_id={post.id} user_id={userData.id} average_rating={post.average_rating}/> 
+                                    : null
+                                }
                             </div>
                         ))}
                     </div>
@@ -115,5 +127,24 @@ export default function DashboardPage() {
 
             <button className={styles.authButton} onClick={handleLogout}>{loading ? "Logging out..." : "Logout"}</button>
         </div>
+    )
+}
+
+import BasicRating from "./BasicRating";
+import * as React from 'react';
+
+function RatingForm(props) {
+    const handleSubmit = () => {}
+
+    const [value, setValue] = React.useState(0);
+    
+    return (
+        <form className={styles.rateForm} onSubmit={handleSubmit}>
+            <h2>Review Form</h2>
+            <BasicRating value={value} setValue={setValue} average_rating={props.average_rating}
+            post_id={props.post_id} user_id={props.user_id}/>
+            <br />
+            <button type="submit">Submit</button>
+        </form>
     )
 }
