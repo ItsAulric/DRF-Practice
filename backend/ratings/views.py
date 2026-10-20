@@ -40,11 +40,17 @@ class RateView(APIView):
         if rating:
             rating.rating = rate_value
             rating.save()
-            return Response({"message": "Rating updated successfully."}, status=200)
+            return Response({
+                "success": True,
+                "message": "Rating updated successfully.",
+                }, status=200)
         else:
             Rating.objects.create(
                 user=user,
                 post_id=post_id,
                 rating=rate_value
             )
-            return Response({"message": "Rating created successfully."}, status=201)
+            return Response({
+                "success": True,
+                "message": "Rating created successfully.",
+                }, status=201)
