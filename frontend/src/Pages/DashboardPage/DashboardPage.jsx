@@ -132,11 +132,41 @@ export default function DashboardPage() {
 
 import BasicRating from "./BasicRating";
 import * as React from 'react';
+import { popperClasses } from "@mui/material/Popper";
 
 function RatingForm(props) {
-    const handleSubmit = () => {}
-
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    
     const [value, setValue] = React.useState(0);
+    const [message, setMessage] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (loading) return;
+
+        setLoading(true);
+
+        try {
+            const post_id = props.post_id;
+            const rating = value;
+            const response = await axios.post(
+                'http://127.0.0.1:8000/api/ratings/rate/',
+                { post_id, rating },
+                {
+                    withCredentials: true,
+                    headers : {
+                        "X-CSRFToken": Cookies.get("csrftoken")
+                    }
+                }
+            );
+            setMessage(response.data.message);
+            setLoading(false);
+        } catch (error) {
+            setError("mama mo");
+            setLoading(false);
+        }
+    }
     
     return (
         <form className={styles.rateForm} onSubmit={handleSubmit}>
@@ -144,6 +174,7 @@ function RatingForm(props) {
             <BasicRating value={value} setValue={setValue} average_rating={props.average_rating}
             post_id={props.post_id} user_id={props.user_id}/>
             <br />
+            {error ? <h1>mama mo</h1> : <h1>{message}</h1>}
             <button type="submit">Submit</button>
         </form>
     )
