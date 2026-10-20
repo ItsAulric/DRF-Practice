@@ -15,8 +15,6 @@ export default function BasicRating(props) {
         );
     }, [props.value])
 
-    const [message, setMessage] = useState(null);
-
     return (
         <Box sx={{ '& > legend': { mt: 2 } }}>
             <Typography component="legend">{props.average_rating} and {props.value}</Typography>
