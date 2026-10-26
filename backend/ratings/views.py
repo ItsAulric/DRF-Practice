@@ -32,14 +32,14 @@ class RateView(APIView):
 
         user = request.user
 
-        rating = Rating.objects.filter(
+        rating_exists = Rating.objects.filter(
             user=user,
             post_id=post_id
         ).first()
 
-        if rating:
-            rating.rating = rate_value
-            rating.save()
+        if rating_exists:
+            rating_exists.rating = rate_value
+            rating_exists.save()
             return Response({
                 "success": True,
                 "message": "Rating updated successfully.",
