@@ -17,7 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Post
-        fields = ["id", "title", "average_rating"]
+        fields = ["id", "user", "title", "average_rating"]
 
     # DRF automatically calls this method for each post; "obj" is the current Post object.
     def get_average_rating(self, obj):
