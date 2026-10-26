@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
 
     def __str__(self):
@@ -19,6 +20,7 @@ class Rating(models.Model):
     rating = models.IntegerField()
     comment = models.CharField(max_length=500, blank=True)
 
+    # a user can only leave one rating
     class Meta:
         unique_together = ("user", "post")
 
