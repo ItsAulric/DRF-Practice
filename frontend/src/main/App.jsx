@@ -14,25 +14,25 @@ import RecoverPage from '../Pages/AuthPages/RecoverPage.jsx';
 */
 
 function App() {
-  return (
-    <main className='App'>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
+    return (
+        <main className='App'>
+            <Routes>
+                <Route path="/" element={<LoginPage />} />
 
-        <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/register" element={<RegisterPage />} />
-        {/*
+                <Route path="/register" element={<RegisterPage />} />
+                {/*
         <Route path="/confirm-register" element={<ConfirmRegister />} />
         <Route path="/forgot-password" element={<RecoverPage />}/>
 
         */}
-        <Route path="/dashboard" element={<DashboardPage />} />
-        
-        <Route path="*" element={<LoginPage />} />
-      </Routes>
-    </main>
-  )
+                <Route path="/dashboard" element={<DashboardPage />} />
+
+                <Route path="*" element={<LoginPage />} />
+            </Routes>
+        </main>
+    )
 }
 
 export default App;
