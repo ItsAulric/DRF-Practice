@@ -100,10 +100,10 @@ export default function DashboardPage() {
                     <div className={styles.postsList}>
                         {posts.map((post) => (
                             <div key={post.id} className={styles.breakthis}>
-                                {post.user === userData.id ? (
-                                    <h1>You own this</h1>
-                                ) : null}
-
+                                {post.user === userData.id 
+                                    ? <h1>You own this</h1> 
+                                    : null
+                                }
                                 <div className={styles.postItem}>
                                     <h2>{post.title}</h2>
                                     <p>Rating: {post.average_rating}</p>
